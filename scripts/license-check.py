@@ -8,6 +8,17 @@ import sys
 import argparse
 import pathlib
 
+<<<<<<< HEAD
+=======
+# This is a set of special licenses that we treat in a unique way. They are not, and will not be featured in the SPDX,
+# because they are just an alias for another license (see referenced discussions for context). Therefore, we explicitly
+# give their names here (since they don't have IDs).
+SPECIAL_LICENSES = {
+    'Bouncy Castle Licence',  # https://github.com/spdx/license-list-XML/issues/910, MIT
+    'Eclipse Distribution License - Version 1.0',  # https://github.com/spdx/license-list-XML/issues/1683, BSD-3-clause
+}
+
+>>>>>>> c3eac4b (Add license checker primitive)
 
 def discover_licenses(sbom):
     """Return a set of licenses featured in a given SBOM
@@ -17,14 +28,36 @@ def discover_licenses(sbom):
     found_licenses = set()
     for item in sbom['components']:
         name, version, licenses = item['name'], item['version'], item['licenses']
+<<<<<<< HEAD
+=======
+        # logging.debug(f'Processing {name}')
+>>>>>>> c3eac4b (Add license checker primitive)
         if not item['licenses']:
             logging.warning(f'{name} {version}: Unspecified license!')
 
         for entry in licenses:
+<<<<<<< HEAD
             # special treatment for bouncy castle
             # https://github.com/spdx/license-list-XML/issues/910
             if 'id' not in entry['license'] and entry['license']['name'] == 'Bouncy Castle Licence':
                 found_licenses.add('Bouncy Castle Licence')
+=======
+            if 'expression' in entry:
+                # Special case for clever licenses that are given as boolean expressions, e.g.
+                # "(CDDL-1.0 OR GPL-2.0-with-classpath-exception)". If this happens, we add the entire expression
+                # to the list without trying to parse it (because the notation can be complex). The entire expression
+                # must be added to the list of allowed licenses after a human checks it and ensures all is well.
+                # Yes, there will be different strings that have the same meaning (e.g. "X or Y", "Y or X") and they
+                # will have to be treated as different cases - that's fine. A human will have to think about it very
+                # well before updating allowed-licenses.txt.
+                found_licenses.add(entry['expression'])
+
+            elif 'id' not in entry['license'] and entry['license']['name'] in SPECIAL_LICENSES:
+                # Some licenses do not have an SPDX ID, this occurs when these licenses are nothing but renamed copies
+                # of some other license. In this case we extract the license name.
+                found_licenses.add(entry['license']['name'])
+
+>>>>>>> c3eac4b (Add license checker primitive)
             else:
                 found_licenses.add(entry['license']['id'])
     return found_licenses
@@ -129,4 +162,8 @@ if __name__ == '__main__':
             logging.info('SUCCESS: No license issues found')
             sys.exit(0)
 
+<<<<<<< HEAD
         sys.exit(1)
+=======
+        sys.exit(1)
+>>>>>>> c3eac4b (Add license checker primitive)

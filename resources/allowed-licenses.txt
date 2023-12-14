@@ -5,4 +5,10 @@ MIT
 EPL-2.0
 BSD-3-Clause
 EPL-1.0
+<<<<<<< HEAD
 Bouncy Castle Licence
+=======
+Bouncy Castle Licence
+# In the entry below we interpret it as CDDL-1.0
+(CDDL-1.0 OR GPL-2.0-with-classpath-exception)
+>>>>>>> c3eac4b (Add license checker primitive)
