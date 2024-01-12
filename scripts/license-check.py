@@ -171,7 +171,11 @@ if __name__ == '__main__':
             sys.exit(0)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         sys.exit(1)
 =======
         sys.exit(1)
 >>>>>>> c3eac4b (Add license checker primitive)
+=======
+        sys.exit(1)
+>>>>>>> 4161c53 (Remove unused dependencies und update version)
